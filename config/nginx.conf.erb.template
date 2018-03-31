@@ -1,0 +1,32 @@
+daemon off;
+worker_processes 1;
+error_log logs/error.log;
+events {
+    worker_connections 1024;
+}
+http {
+    include mime.types;
+    server {
+        listen <%= ENV["PORT"] %>;
+        sendfile off;
+        server_name masorx3;
+        index index.html;
+        root /app;
+        gzip_static on;
+        location /bower_components {}
+        location /dist {}
+        location /lib {}
+        location /assets {
+            alias /app/src/assets/;
+        }
+        location /scripts {
+            alias /app/dist/scripts/;
+        }
+        location /styles {
+            alias /app/dist/styles/;
+        }
+        location / {
+            try_files $uri /dist/index.html =404;
+        }
+    }
+}

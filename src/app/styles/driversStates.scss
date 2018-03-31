@@ -1,0 +1,21 @@
+.drivers-states {
+  padding-top: 15px;
+  .row-style {
+    padding-left: 15px;
+    padding-right: 15px;
+    .button-column {
+      padding-top: 4.5px;
+      padding-bottom: 4.5px;
+    }
+  }
+}
+
+@media (min-width:320px) and (max-width:900px) {
+  .drivers-states {
+    .row-style {
+      .button-column {
+        padding-top: 10px;
+      }
+    }
+  }
+}
