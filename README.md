@@ -1,7 +1,9 @@
 # Hoy Como-Back Office Comercio
 
 Para instalar dependencias:
+
 npm install
+
 bower install
 
 
