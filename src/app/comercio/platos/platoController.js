@@ -12,6 +12,8 @@
     
     
     vm.newDish = newDish;
+    vm.deleteDish = deleteDish;
+    vm.modal = modal;    
     activate();
 
     function activate() {
@@ -27,8 +29,17 @@
     }
     
     function newDish() {
-      console.log("pase por new");
       $state.go('main.nuevoPlato');
+    }
+    
+    function modal() {
+      $('#myModal').modal('show');
+    }
+
+    function deleteDish(id){
+          console.log('paseppor delete');
+      vm.dishes.splice(vm.dishes.findIndex(function(dish){
+            return dish.id == id}),1);
     }
   }
 })();

@@ -1,3 +1,5 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet"/>
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -75,7 +77,67 @@
           <h2 class="text-center">No se encontraron platos.</h2>
         </div>
       </div>
-      <div class="row row-style same-height">
+      <div class="notifications-container">
+  <table class="table table-responsive table-style">
+    <thead>
+    <tr>
+      <th>Plato</th>
+      <th>Precio</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody ng-repeat="dish in vm.dishes">
+    <tr>
+      <td>{{dish.description}}</td>
+      <td>${{dish.price}}</td>
+      <td>
+        <i class="fa fa-trash fa-lg" ng-click="vm.deleteDish(dish.id)"></i> 
+      </td>
+      <td>
+        <i class="fa fa-pencil fa-lg" ng-click="vm.modal()"></i> 
+      </td>
+      <!--<td><i class="fa fa-trash" aria-hidden="true"></i></td>-->
+    </tr>
+    </tbody>
+  </table>
+</div>
+      <div class="modal fade" id="myModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title">Modificar Plato</h4>
+                </div>
+                <div class="modal-body">
+                   <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                      <label style="margin-bottom: 10px;" for="description">Plato</label>
+                      <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" required>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                      <label style="margin-bottom: 10px;" for="price">Costo ($)</label>
+                      <input type="text" name="price" class="form-control" id="price" ng-model="vm.new_plato.price" ng-pattern="/^[0-9]*$/" required value="dish.price">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-3 col-lg-3 column">
+                      <label style="margin-bottom: 10px;" for="image">Imagen</label>
+                      <input id="image" type="file" />
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+      <!--div class="row row-style same-height">
         <div class="col-xs-12 col-sm-4 col-lg-3 column" ng-repeat="dish in vm.dishes">
           <div class="container-fluid driver-card-border driver-card-flex">
             <div class="driver-card-flex-left-column">
@@ -92,7 +154,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>
