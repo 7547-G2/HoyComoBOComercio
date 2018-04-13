@@ -19,7 +19,7 @@
     return {
       login: function (params) {
         var def = $q.defer()
-        $http.post('http://localhost:3000/account', {
+        $http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/session', {
           email: params.email,
           password: params.password
         })

@@ -5,14 +5,21 @@
     .module('hoyComo')
     .controller('PlatoController', PlatoController)
 
-  function PlatoController($scope, $state, Comercio) {
+  function PlatoController($scope, $state, Comercio,Plato) {
     var vm = this;
     
     vm.dishes = [];
     
     
+    vm.new_plato = {
+      description: null,
+      image: null,
+      price: null,
+      id: null
+    };
     vm.newDish = newDish;
     vm.deleteDish = deleteDish;
+    vm.submitPlato = submitPlato;
     vm.modal = modal;    
     activate();
 
@@ -24,17 +31,66 @@
           }
         })
         .catch(function (err) {
-          console.log('ERROR LOADING GYMS...');
         })
+        var fileSelect = document.getElementById("image");
+        fileSelect.onchange = function() {
+          var f = fileSelect.files[0], r = new FileReader();
+  
+          r.onloadend = function(e) { 
+            vm.new_plato.image = e.target.result;
+          }
+  
+          r.readAsDataURL(f);
+        };
     }
     
     function newDish() {
-      $state.go('main.nuevoPlato');
-    }
-    
-    function modal() {
       $('#myModal').modal('show');
     }
+    
+    function modal(dish) {
+      /*var dishToEdit = vm.dishes.findIndex(function(dish){
+        return dish.id == id});
+        vm.new_plato.description = vm.dishes[dishToEdit].description;
+        vm.new_plato.price = vm.dishes[dishToEdit].price;*/
+        vm.new_plato.description = (dish == null) ? "":dish.description;
+        vm.new_plato.price = (dish == null) ? "":dish.price;
+        vm.new_plato.id  = (dish == null) ? 0:dish.id;
+      $('#myModal').modal('show');
+    }
+
+    function submitPlato() {
+      var nuevoPlato = {
+        description: null,
+        image: null,
+        price: null,
+        id: null
+      };
+      nuevoPlato.price = Number(vm.new_plato.price);
+      nuevoPlato.description = vm.new_plato.description;
+      nuevoPlato.image = vm.new_plato.image;
+      nuevoPlato.id = vm.new_plato.id;
+      if (vm.new_plato.id == 0) {
+        vm.dishes.push(nuevoPlato);
+      } else {
+      vm.dishes.splice(vm.dishes.findIndex(function(dish){
+        return dish.id == vm.new_plato.id }),1,nuevoPlato);
+      }
+      vm.new_plato =  {
+        description: null,
+        image: null,
+        price: null
+      };
+      Plato.create(nuevoPlato)
+        .then(function (result) {
+          $state.go('main.comercio');
+        })
+        .catch(function (err) {
+          vm.error = err;
+        })
+        $('#myModal').modal('hide');
+    }
+
 
     function deleteDish(id){
           console.log('paseppor delete');

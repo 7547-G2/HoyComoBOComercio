@@ -64,7 +64,7 @@
           <div class="col-xs-6 col-sm-3 col-sm-offset-6 col-lg-3 col-lg-offset-6 column-right">
             <div align="right">
               <ul class="nav navbar-nav float-right">
-                <li><a class="btn big-btn" ng-click="vm.newDish()"><strong>Nuevo plato</strong></a></li>
+                <li><a class="btn big-btn" ng-click="vm.modal(null)"><strong>Nuevo plato</strong></a></li>
               </ul>
             </div>
           </div>
@@ -95,7 +95,7 @@
         <i class="fa fa-trash fa-lg" ng-click="vm.deleteDish(dish.id)"></i> 
       </td>
       <td>
-        <i class="fa fa-pencil fa-lg" ng-click="vm.modal()"></i> 
+        <i class="fa fa-pencil fa-lg" ng-click="vm.modal(dish)"></i> 
       </td>
       <!--<td><i class="fa fa-trash" aria-hidden="true"></i></td>-->
     </tr>
@@ -129,7 +129,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar Cambios</button>
+                    <button type="button" ng-click="vm.submitPlato()" class="btn btn-primary">Guardar Cambios</button>
                 </div>
             </div>
             <!-- /.modal-content -->
