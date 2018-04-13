@@ -2,11 +2,13 @@
   'use strict';
 
   angular
-    .module('hoyComo')
-    .controller('PlatoController', PlatoController)
+    .module('hoyComo', ['ui.bootstrap'])
+    .controller('PlatoController', ['$uibModal',PlatoController]);
 
-  function PlatoController($scope, $state, Comercio) {
-    var vm = this;
+  //PlatoController.$inject = ['$uibModal'];
+  
+  function PlatoController($uibModal,$scope,$state, $stateProvider,Comercio) {
+    var vm = this
     
     vm.dishes = [];
     
@@ -32,12 +34,34 @@
       $state.go('main.nuevoPlato');
     }
     
-    function modal() {
-      $('#myModal').modal('show');
+
+
+    function DeleteModalCtrl($uibModalInstance, dishes, id) {
+      var vm = this;
+
+      vm.dishes = dishes;
+      vm.deletePerson = deletePerson;
+
+      function deletePerson(id) {
+        //dishes.splice(dishes.indexOf(person), 1);
+        $uibModalInstance.close();
+      }
+    }
+    
+    function modal(id) {
+      $uibModal.open({
+            templateUrl: 'modal.html',
+            controller: ['$uibModalInstance', 'dishes', 'id', DeleteModalCtrl],
+            controllerAs: 'vm',
+            resolve: {
+              dishes: function () { return vm.dishes },
+              id: function() { return id; }
+            }
+          });
+      //$('#myModal').modal('show');
     }
 
     function deleteDish(id){
-          console.log('paseppor delete');
       vm.dishes.splice(vm.dishes.findIndex(function(dish){
             return dish.id == id}),1);
     }
