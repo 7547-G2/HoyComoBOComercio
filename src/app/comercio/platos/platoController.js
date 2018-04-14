@@ -34,8 +34,30 @@
         })
         var fileSelect = document.getElementById("image");
         fileSelect.onchange = function() {
+          var valida = false;
+          if(this.files[0].size > 524288){
+            alert("La imagen no debe pesar más de 512Kb");
+            this.value = "";
+            return;
+          };
           var f = fileSelect.files[0], r = new FileReader();
-  
+          r.onload = function(e){
+            var img = new Image();      
+            img.src = e.target.result;
+            img.onload = function () {
+              var w = this.width;
+              var h = this.height;
+              if (h!=w){
+                return;
+              }
+              valida = true;
+            } 
+          }
+          if (!valida){
+            alert("La imagen debe ser cuadrada");
+            this.value = "";
+            return;
+          }
           r.onloadend = function(e) { 
             vm.new_plato.image = e.target.result;
           }

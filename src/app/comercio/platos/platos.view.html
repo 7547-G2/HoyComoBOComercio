@@ -10,21 +10,17 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a style="font-size: 20px; font-weight: 700;" class="navbar-brand">
-        <i>Hoy Como</i>
+      <a class="navbar-left">
+        <img class="img-responsive center-block" src='assets/images/Logo.png' style="height: 60px;">        
+      </a>
+
+      <a class="navbar-brand">
+      <i>Hoy Como</i>
       </a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        
-          <a style="font-size: 16px; font-weight: 700;" class="navbar-brand">
-            Nombre Local
-          </a>
-        
-      </ul>
-
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a style="font-size: 16px; font-weight: 700;" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -53,24 +49,6 @@
 </nav>
 <div>
   <div>
-    <nav class="navbar navbar-default custom-navbar">
-      <div class="container-fluid">
-        <div class="row row-style">
-          <div class="col-xs-6 col-sm-3 col-lg-3 column-left">
-            <ul class="nav navbar-nav float-left">
-              <!--<li><a class="btn big-btn" ng-click="vm.toggleSidebar()"><strong>Filtrar</strong></a></li>-->
-            </ul>
-          </div>
-          <div class="col-xs-6 col-sm-3 col-sm-offset-6 col-lg-3 col-lg-offset-6 column-right">
-            <div align="right">
-              <ul class="nav navbar-nav float-right">
-                <li><a class="btn big-btn" ng-click="vm.modal(null)"><strong>Nuevo plato</strong></a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </nav>
     <div class="container-fluid drivers-list">
       <div class="row" ng-if="vm.dishes.length === 0">
         <div class="col-xs-12">
@@ -78,6 +56,8 @@
         </div>
       </div>
       <div class="notifications-container">
+          Buscar plato: <input type="text" ng-model="search.description">
+          <i class="fa fa-plus fa-lg" ng-click="vm.modal(null)"/>Nuevo Plato
   <table class="table table-responsive table-style">
     <thead>
     <tr>
@@ -87,7 +67,7 @@
       <th></th>
     </tr>
     </thead>
-    <tbody ng-repeat="dish in vm.dishes">
+    <tbody ng-repeat="dish in vm.dishes| filter: search">
     <tr>
       <td>{{dish.description}}</td>
       <td>${{dish.price}}</td>
@@ -107,30 +87,35 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                    <h4 class="modal-title">Modificar Plato</h4>
+                    <h4 class="modal-title">Plato</h4>
                 </div>
-                <div class="modal-body">
-                   <div class="row">
-                    <div class="col-xs-12 col-sm-6 col-lg-6 column">
-                      <label style="margin-bottom: 10px;" for="description">Plato</label>
-                      <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" required>
+                <form name="modalForm">
+                  <div class="modal-body">
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                        <label style="margin-bottom: 10px;" for="description">Descripción</label>
+                        <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" ng-required>
+                        <span ng-show="modalForm.description.$error.required" class="help-block">La descripción es requerida.</span>
+                      </div>
+                      <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                        <label style="margin-bottom: 10px;" for="price">Costo ($)</label>
+                        <input type="text" name="price" class="form-control" id="price" ng-model="vm.new_plato.price" ng-pattern="/^[0-9]*$/" required>
+                        <span class="help-block" ng-show="modalForm.price.$invalid && !modalForm.price.$pristine">El precio debe ser un número y es requerido.
+                 </span>
+                      </div>
                     </div>
-                    <div class="col-xs-12 col-sm-6 col-lg-6 column">
-                      <label style="margin-bottom: 10px;" for="price">Costo ($)</label>
-                      <input type="text" name="price" class="form-control" id="price" ng-model="vm.new_plato.price" ng-pattern="/^[0-9]*$/" required value="dish.price">
+                    <div class="row">
+                      <div class="col-xs-12 col-sm-3 col-lg-3 column">
+                        <label style="margin-bottom: 10px;" for="image">Imagen</label>
+                        <input id="image" type="file" accept=".png, .jpg, .jpeg"/>
+                      </div>
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-xs-12 col-sm-3 col-lg-3 column">
-                      <label style="margin-bottom: 10px;" for="image">Imagen</label>
-                      <input id="image" type="file" />
-                    </div>
+                  <div class="modal-footer">
+                      <button type="button"  ng-disabled="modalForm.$invalid" ng-click="vm.submitPlato()" class="btn btn-primary">Guardar</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                   </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    <button type="button" ng-click="vm.submitPlato()" class="btn btn-primary">Guardar Cambios</button>
-                </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
