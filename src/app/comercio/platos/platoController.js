@@ -40,28 +40,34 @@
             this.value = "";
             return;
           };
-          var f = fileSelect.files[0], r = new FileReader();
-          r.onload = function(e){
+          var f = fileSelect.files.item(0), r = new FileReader();
+          /*r.onload = function(e){
             var img = new Image();      
             img.src = e.target.result;
-            img.onload = function () {
-              var w = this.width;
-              var h = this.height;
-              if (h!=w){
-                return;
-              }
-              valida = true;
-            } 
+            var w = this.width;
+            var h = this.height;
+            if (h!=w){
+              return;
+            }
+            valida = true;
+            
           }
           if (!valida){
-            alert("La imagen debe ser cuadrada");
             this.value = "";
             return;
-          }
+          }*/
           r.onloadend = function(e) { 
+            var img = new Image();      
+            img.src = e.target.result;
+            var w = img.width;
+            var h = img.height;
+            if (h!=w){
+              alert("La imagen debe ser cuadrada");
+              fileSelect.value = "";
+              return;
+            }
             vm.new_plato.image = e.target.result;
           }
-  
           r.readAsDataURL(f);
         };
     }

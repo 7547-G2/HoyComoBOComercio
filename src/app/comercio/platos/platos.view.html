@@ -50,14 +50,19 @@
 <div>
   <div>
     <div class="container-fluid drivers-list">
-      <div class="row" ng-if="vm.dishes.length === 0">
-        <div class="col-xs-12">
-          <h2 class="text-center">No se encontraron platos.</h2>
-        </div>
+      <div class="col-xs-12">
+        <a ng-click="vm.modal(null)" class='btn btn-primary pull-right'>
+          <span class='glyphicon glyphicon-plus'></span> Nuevo Plato
+      </a>
+    </div>
+    <div class="row" ng-if="vm.dishes.length === 0">
+      <div class="col-xs-12">
+        <h2 class="text-center">No se encontraron platos.</h2>
       </div>
+    </div>
+      <div class="row" ng-if="vm.dishes.length > 0">
       <div class="notifications-container">
-          Buscar plato: <input type="text" ng-model="search.description">
-          <i class="fa fa-plus fa-lg" ng-click="vm.modal(null)"/>Nuevo Plato
+          Buscar plato: <input type="text" ng-model="search.description">          
   <table class="table table-responsive table-style">
     <thead>
     <tr>
@@ -82,6 +87,7 @@
     </tbody>
   </table>
 </div>
+</div>
       <div class="modal fade" id="myModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -94,7 +100,7 @@
                     <div class="row">
                       <div class="col-xs-12 col-sm-6 col-lg-6 column">
                         <label style="margin-bottom: 10px;" for="description">Descripción</label>
-                        <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" ng-required>
+                        <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" required>
                         <span ng-show="modalForm.description.$error.required" class="help-block">La descripción es requerida.</span>
                       </div>
                       <div class="col-xs-12 col-sm-6 col-lg-6 column">

@@ -9,7 +9,7 @@
     return {
       getDishes: function () {
         var def = $q.defer()
-        $http.get('http://localhost:3000/dishes')
+        $http.get('http://localhost:3000/dishes')//'https://hoy-como-backend.herokuapp.com/api/backofficeComercio/6/platos')
           .then(function (res) {
             def.resolve(res)
           })

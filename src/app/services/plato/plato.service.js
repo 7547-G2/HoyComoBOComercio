@@ -9,7 +9,7 @@
     return {
       create: function (params) {
         var def = $q.defer()
-        $http.post('http://localhost:3000/dishes', {
+        $http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/6/platos', {
           description: params.description,
           price: params.price,
           image: params.image
