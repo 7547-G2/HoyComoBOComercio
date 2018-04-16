@@ -4,15 +4,31 @@
   angular.module('hoyComo')
     .factory('Plato', Plato)
 
-  function Plato($http, $q, $localStorage) {
+  function Plato($http, $q,  User) {
 
     return {
       create: function (params) {
         var def = $q.defer()
-        $http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/6/platos', {
-          description: params.description,
-          price: params.price,
-          image: params.image
+        $http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/'+ User.getLoggedUserId() +'/platos', {
+          nombre: params.nombre,
+          precio: params.precio,
+          imagen: params.imagen
+        })
+          .then(function (res) {
+            def.resolve(res)
+          })
+          .catch(function (err) {
+            def.reject(err)
+          })
+
+        return def.promise
+      },
+      update: function (params) {
+        var def = $q.defer()
+        $http.put('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/'+ User.getLoggedUserId() +'/platos/' + params.id, {
+          nombre: params.nombre,
+          precio: params.precio,
+          imagen: params.imagen
         })
           .then(function (res) {
             def.resolve(res)

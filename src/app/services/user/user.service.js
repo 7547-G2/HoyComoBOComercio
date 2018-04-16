@@ -4,7 +4,7 @@
   angular.module('hoyComo')
     .factory('User', User)
 
-  function User($http, $q, $localStorage) {
+  function User($http, $q, $localStorage, $sessionStorage) {
 
     var loggedUserId = null;
 
@@ -19,26 +19,11 @@
     return {
       login: function (params) {
         var def = $q.defer()
+        //$http.post('http://localhost:3000/account',{
         $http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/session', {
           email: params.email,
           password: params.password
         })
-          .then(function (res) {
-            def.resolve(res)
-          })
-          .catch(function (err) {
-            def.reject(err)
-          })
-
-        return def.promise
-      },
-      signup: function (params) {
-        var def = $q.defer()
-        $http.post('https://gym2go-server.herokuapp.com/api/admin-users', {
-            email: params.email,
-            password: params.password,
-            type: params.type
-          })
           .then(function (res) {
             def.resolve(res)
           })
@@ -54,14 +39,15 @@
         return !(!$localStorage.api_token)
       },
       logout: function () {
-        $localStorage.$reset()
+        $localStorage.$reset();
+        $sessionStorage.$reset();
         loggedUserId = null;
       },
       setLoggedUserId: function (id) {
-        loggedUserId = id;
+        $sessionStorage.idComercio = id;
       },
       getLoggedUserId: function () {
-        return loggedUserId;
+        return $sessionStorage.idComercio;
       }
     }
   }

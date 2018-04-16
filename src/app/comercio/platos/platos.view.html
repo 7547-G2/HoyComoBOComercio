@@ -62,7 +62,7 @@
     </div>
       <div class="row" ng-if="vm.dishes.length > 0">
       <div class="notifications-container">
-          Buscar plato: <input type="text" ng-model="search.description">          
+          Buscar plato: <input type="text" ng-model="search.nombre">          
   <table class="table table-responsive table-style">
     <thead>
     <tr>
@@ -74,8 +74,8 @@
     </thead>
     <tbody ng-repeat="dish in vm.dishes| filter: search">
     <tr>
-      <td>{{dish.description}}</td>
-      <td>${{dish.price}}</td>
+      <td>{{dish.nombre}}</td>
+      <td>${{dish.precio}}</td>
       <td>
         <i class="fa fa-trash fa-lg" ng-click="vm.deleteDish(dish.id)"></i> 
       </td>
@@ -110,10 +110,16 @@
                  </span>
                       </div>
                     </div>
-                    <div class="row">
-                      <div class="col-xs-12 col-sm-3 col-lg-3 column">
+                    <div class="row" style="margin-top: 10px">
+                      <div class="col-xs-12 col-sm-6 col-lg-6 column">
                         <label style="margin-bottom: 10px;" for="image">Imagen</label>
                         <input id="image" type="file" accept=".png, .jpg, .jpeg"/>
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 10px">
+                      <div class="col-xs-12 col-sm-6 col-lg-6 column" ng-if="vm.new_plato.image != ''">
+                        <label style="margin-bottom: 10px;" for="image">Vista Previa</label>
+                        <img data-ng-src="{{vm.new_plato.image}}" width="90px" height="90px"/>
                       </div>
                     </div>
                   </div>

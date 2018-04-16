@@ -26,8 +26,8 @@
     function activate() {
       Comercio.getDishes()
         .then(function (result) {
-          if (result.data.dishes !== null) {
-            result.data.dishes.forEach(function (value) {vm.dishes.push(value)});
+          if (result.data !== null) {
+            result.data.forEach(function (value) {vm.dishes.push(value)});
           }
         })
         .catch(function (err) {
@@ -41,22 +41,7 @@
             return;
           };
           var f = fileSelect.files.item(0), r = new FileReader();
-          /*r.onload = function(e){
-            var img = new Image();      
-            img.src = e.target.result;
-            var w = this.width;
-            var h = this.height;
-            if (h!=w){
-              return;
-            }
-            valida = true;
-            
-          }
-          if (!valida){
-            this.value = "";
-            return;
-          }*/
-          r.onloadend = function(e) { 
+          r.onload =function(e) { 
             var img = new Image();      
             img.src = e.target.result;
             var w = img.width;
@@ -66,6 +51,8 @@
               fileSelect.value = "";
               return;
             }
+          }
+          r.onloadend = function(e) { 
             vm.new_plato.image = e.target.result;
           }
           r.readAsDataURL(f);
@@ -77,46 +64,49 @@
     }
     
     function modal(dish) {
-      /*var dishToEdit = vm.dishes.findIndex(function(dish){
-        return dish.id == id});
-        vm.new_plato.description = vm.dishes[dishToEdit].description;
-        vm.new_plato.price = vm.dishes[dishToEdit].price;*/
-        vm.new_plato.description = (dish == null) ? "":dish.description;
-        vm.new_plato.price = (dish == null) ? "":dish.price;
+      var fileSelect = document.getElementById("image").value = '';
+        vm.new_plato.description = (dish == null) ? "":dish.nombre;
+        vm.new_plato.price = (dish == null) ? "":dish.precio;
         vm.new_plato.id  = (dish == null) ? 0:dish.id;
+        vm.new_plato.image  = (dish == null) ? "":dish.imagen;
       $('#myModal').modal('show');
     }
 
     function submitPlato() {
       var nuevoPlato = {
-        description: null,
-        image: null,
-        price: null,
+        nombre: null,
+        imagen: null,
+        precio: null,
         id: null
       };
-      nuevoPlato.price = Number(vm.new_plato.price);
-      nuevoPlato.description = vm.new_plato.description;
-      nuevoPlato.image = vm.new_plato.image;
+      nuevoPlato.precio = Number(vm.new_plato.price);
+      nuevoPlato.nombre = vm.new_plato.description;
+      nuevoPlato.imagen = vm.new_plato.image;
       nuevoPlato.id = vm.new_plato.id;
       if (vm.new_plato.id == 0) {
-        vm.dishes.push(nuevoPlato);
+        Plato.create(nuevoPlato)
+        .then(function (result) {
+          nuevoPlato.id = result;
+          vm.dishes.push(nuevoPlato);
+          $state.go('main.comercio');
+        })
+        .catch(function (err) {
+          vm.error = err;
+        })
       } else {
-      vm.dishes.splice(vm.dishes.findIndex(function(dish){
-        return dish.id == vm.new_plato.id }),1,nuevoPlato);
+        Plato.update(nuevoPlato)
+        .then(function (result) {
+          vm.dishes.splice(vm.dishes.findIndex(function(dish){
+            return dish.id == nuevoPlato.id }),1,nuevoPlato);
+          $state.go('main.comercio');
+        })
       }
       vm.new_plato =  {
         description: null,
         image: null,
         price: null
       };
-      Plato.create(nuevoPlato)
-        .then(function (result) {
-          $state.go('main.comercio');
-        })
-        .catch(function (err) {
-          vm.error = err;
-        })
-        $('#myModal').modal('hide');
+      $('#myModal').modal('hide');
     }
 
 
