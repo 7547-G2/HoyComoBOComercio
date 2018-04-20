@@ -39,7 +39,7 @@
 
         return def.promise
       },
-      delete: function (activityId) {
+      /*delete: function (activityId) {
         var def = $q.defer()
         $http.delete('https://gym2go-server.herokuapp.com/api/gyms/'+Gym.getActiveGym()+'/activities' + activityId)
           .then(function (res) {
@@ -50,7 +50,7 @@
           })
 
         return def.promise
-      }
+      }*/
     }
   }
 })();

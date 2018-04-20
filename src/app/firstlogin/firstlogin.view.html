@@ -1,0 +1,65 @@
+﻿<div class="container">
+  <div class="row">
+    <div>
+      <img class="img-responsive center-block" src='assets/images/Logo.png' alt="Masor" height="250" style="width: 30%;">
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <div class="panel panel-login">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <a id="login-form-link">Activar Comercio</a>
+                </div>
+              </div>
+              <hr>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-lg-12">
+                  <form name="login" id="login-form" ng-submit="vm.firstLogin()" role="form" style="display: block;" novalidate>
+                    <div class="form-group">
+                        <input type="password"
+                                name="password"
+                                id="password"
+                                tabindex="2"
+                                class="form-control"
+                                placeholder="Contraseña"
+                                ng-model="vm.userCredentials.password" required>
+                      </div>
+                    <div class="form-group">
+                      <input type="password"
+                             name="confirm_password"
+                             id="confirm_password"
+                             tabindex="2"
+                             class="form-control"
+                             placeholder="Repetir Contraseña"
+                             ng-model="vm.userCredentials.confirm_password" required
+                             nx-equal="vm.userCredentials.password">
+                    </div>
+                    <span ng-if="vm.error != ''" class="help-block">{{vm.error}}</span>
+                      <div ng-show="vm.userCredentials.confirm_password != vm.userCredentials.password" >Las contraseñas no coinciden</div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-lg-12">
+                          <input type="submit"
+                                 name="login-submit"
+                                 id="login-submit"
+                                 tabindex="3"
+                                 class="form-control btn btn-login"
+                                 value="Cambiar Contraseña"
+                                 ng-disabled="login.$invalid || (vm.userCredentials.confirm_password != vm.userCredentials.password)">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

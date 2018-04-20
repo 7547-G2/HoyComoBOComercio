@@ -24,6 +24,7 @@
     activate();
 
     function activate() {
+      $scope.status = true;
       Comercio.getDishes()
         .then(function (result) {
           if (result.data !== null) {
@@ -34,7 +35,6 @@
         })
         var fileSelect = document.getElementById("image");
         fileSelect.onchange = function() {
-          var valida = false;
           if(this.files[0].size > 524288){
             alert("La imagen no debe pesar más de 512Kb");
             this.value = "";
@@ -58,13 +58,16 @@
           r.readAsDataURL(f);
         };
     }
+
+    $scope.changeStatus = function(){
+      $scope.status = !$scope.status;
+    }
     
     function newDish() {
       $('#myModal').modal('show');
     }
     
     function modal(dish) {
-      var fileSelect = document.getElementById("image").value = '';
         vm.new_plato.description = (dish == null) ? "":dish.nombre;
         vm.new_plato.price = (dish == null) ? "":dish.precio;
         vm.new_plato.id  = (dish == null) ? 0:dish.id;

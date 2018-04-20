@@ -33,6 +33,23 @@
 
         return def.promise
       },
+      firstLogin: function (params) {
+        var def = $q.defer()
+        $http.post('http://localhost:3000/account',{
+        //$http.post('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/session', {
+          email: params.email,
+          password: params.password,
+          hash: params.hash
+        })
+          .then(function (res) {
+            def.resolve(res)
+          })
+          .catch(function (err) {
+            def.reject(err)
+          })
+
+        return def.promise
+      },
       isLogged: function () {
         var token = $localStorage.api_token
         updateApiTokenHeader(token)

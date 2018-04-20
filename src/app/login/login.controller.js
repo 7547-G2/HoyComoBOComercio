@@ -5,7 +5,7 @@
     .module('hoyComo')
     .controller('LoginController', LoginController);
 
-  function LoginController($state, User, $localStorage) {
+  function LoginController($state, User) {
     var vm = this;
 
     vm.userCredentials = {
