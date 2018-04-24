@@ -10,7 +10,7 @@
     
     vm.dishes = [];
     
-    $scope.viewby = 10;
+    $scope.viewby = 5;
     $scope.totalItems = 0;
     $scope.currentPage = 1;
     $scope.itemsPerPage = $scope.viewby;
@@ -33,11 +33,13 @@
       description: null,
       image: null,
       price: null,
+      platoState: null,
       id: null
     };
     vm.newDish = newDish;
     vm.deleteDish = deleteDish;
     vm.submitPlato = submitPlato;
+    vm.editComercioInfo = editComercioInfo;
     vm.modal = modal;    
     activate();
 
@@ -78,10 +80,19 @@
         };
     }
 
-    $scope.changeStatus = function(){
-      $scope.status = !$scope.status;
+    $scope.changeStatus = function(plato){
+      console.log("en change status");
+      plato.platoState = (plato.platoState == 'ACTIVO') ? 'INACTIVO':'ACTIVO';
+      Plato.update(plato)
+      .then(function (result) {
+        $state.go('main.comercio');
+      })
     }
     
+    function editComercioInfo() {
+      $state.go('main.editarComercio');
+     }
+
     function newDish() {
       $('#myModal').modal('show');
     }
@@ -89,8 +100,9 @@
     function modal(dish) {
         vm.new_plato.description = (dish == null) ? "":dish.nombre;
         vm.new_plato.price = (dish == null) ? "":dish.precio;
-        vm.new_plato.id  = (dish == null) ? 0:dish.id;
-        vm.new_plato.image  = (dish == null) ? "":dish.imagen;
+        vm.new_plato.id = (dish == null) ? 0:dish.id;
+        vm.new_plato.image = (dish == null) ? "":dish.imagen;
+        vm.new_plato.platoState = (dish == null) ? "":dish.platoState;
       $('#myModal').modal('show');
     }
 
@@ -99,6 +111,7 @@
         nombre: null,
         imagen: null,
         precio: null,
+        platoState: null,
         id: null
       };
       nuevoPlato.precio = Number(vm.new_plato.price);
@@ -132,10 +145,16 @@
     }
 
 
-    function deleteDish(id){
-          console.log('paseppor delete');
-      vm.dishes.splice(vm.dishes.findIndex(function(dish){
-            return dish.id == id}),1);
+    function deleteDish(plato){
+      if(confirm("¿Está seguro de eliminar "+ plato.nombre + "?")) {     
+        plato.platoState = 'BORRADO';
+        Plato.update(plato)
+        .then(function (result) {
+          vm.dishes.splice(vm.dishes.findIndex(function(dish){
+          return dish.id == plato.id}),1);
+          $state.go('main.comercio');
+        })
+    }
     }
   }
 })();

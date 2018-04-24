@@ -5,8 +5,9 @@
 
 .active, .inactive {font-size:40px;cursor:pointer;}
 .active, .inactive {font-size:40px;cursor:pointer;}
-i.active { color: #3b5998}
+i.active { color: #286090}
 i.inactive {color: #808080}
+/*
 .icon-power-off {
    color:#808080;
 }
@@ -15,7 +16,7 @@ i.inactive {color: #808080}
 }
 .fa-stack-1x {
     color:white;
-}
+}*/
 </style>
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container-fluid">
@@ -58,9 +59,9 @@ i.inactive {color: #808080}
       <ul class="nav navbar-nav">
         <li><a href="#">Platos</a></li>
       </ul>
-      <!--<ul class="nav navbar-nav navbar-right">
-        <li><a ng-click="vm.editGymInfo()" class="btn btn-navbar">Editar informacion</a></li>
-      </ul>-->
+      <ul class="nav navbar-nav navbar-right">
+        <li><a ng-click="vm.editComercioInfo()" class="btn btn-navbar">Editar informacion</a></li>
+      </ul>
     </div>
   </div><!-- /.container-fluid -->
 </nav>
@@ -95,26 +96,28 @@ i.inactive {color: #808080}
       <td>{{dish.nombre}}</td>
       <td>${{dish.precio}}</td>
       <td>
-        <i class="fa fa-trash fa-lg" ng-click="vm.deleteDish(dish.id)"></i> 
+        <i class="fa fa-trash fa-lg" ng-click="vm.deleteDish(dish)"></i> 
       </td>
       <td>
         <i class="fa fa-pencil fa-lg" ng-click="vm.modal(dish)"></i> 
       </td>
       <td>
-          <span class="fa-stack fa-lg icon-power-off"   ng-if="status == true" ng-click="changeStatus();">
-              <i class="fa fa-square fa-stack-2x"></i>
-              <i class="fa fa-power-off fa-stack-1x"></i>
-            </span>
-            <span class="fa-stack fa-lg icon-power-on"   ng-if="status == false" ng-click="changeStatus();">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-power-off fa-stack-1x"></i>
-              </span>
+          <i class="fa fa-toggle-on active" ng-if="dish.platoState == INACTIVO" ng-click="changeStatus();"></i>
+          <i class="fa fa-toggle-on fa-rotate-180 inactive" ng-if="dish.platoState == ACTIVO" ng-click="changeStatus();"></i>
       </td>
     </tr>
     </tbody>
   </table>
-  Ver <select ng-model="viewby" ng-change="setItemsPerPage(viewby)"><option>3</option><option>5</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option></select> registros.
-  <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></ul>
+  <div class="row">
+    <div class="col-xs-6">
+  
+  Ver <select ng-model="viewby" ng-init="viewby='5'" ng-change="setItemsPerPage(viewby)"><option>3</option><option>5</option><option>10</option><option>20</option><option>30</option><option>40</option><option>50</option></select> registros.
+</div>
+<div class="col-xs-6">
+  <ul uib-pagination  previous-text="Anterior" next-text="Siguiente" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></ul>
+  </div>
+</div>
+</div>
 </div>
 </div>
       <div class="modal fade" id="myModal">
@@ -127,12 +130,12 @@ i.inactive {color: #808080}
                 <form name="modalForm">
                   <div class="modal-body">
                     <div class="row">
-                      <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                      <div class="col-xs-12 col-sm-8 col-lg-8 column">
                         <label style="margin-bottom: 10px;" for="description">Descripción</label>
                         <input type="text" name="description" class="form-control" id="description" ng-model="vm.new_plato.description" required>
                         <span ng-show="modalForm.description.$error.required" class="help-block">La descripción es requerida.</span>
                       </div>
-                      <div class="col-xs-12 col-sm-6 col-lg-6 column">
+                      <div class="col-xs-12 col-sm-4 col-lg46 column">
                         <label style="margin-bottom: 10px;" for="price">Costo ($)</label>
                         <input type="text" name="price" class="form-control" id="price" ng-model="vm.new_plato.price" ng-pattern="/^[0-9]*$/" required>
                         <span class="help-block" ng-show="modalForm.price.$invalid && !modalForm.price.$pristine">El precio debe ser un número y es requerido.

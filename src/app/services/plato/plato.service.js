@@ -28,7 +28,8 @@
         $http.put('https://hoy-como-backend.herokuapp.com/api/backofficeComercio/'+ User.getLoggedUserId() +'/platos/' + params.id, {
           nombre: params.nombre,
           precio: params.precio,
-          imagen: params.imagen
+          imagen: params.imagen,
+          platoState: params.platoState
         })
           .then(function (res) {
             def.resolve(res)

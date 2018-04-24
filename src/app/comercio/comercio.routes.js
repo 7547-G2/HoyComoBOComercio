@@ -17,10 +17,10 @@
       })
       
       .state({
-        name: 'main.nuevoPlato',
-        url: 'nuevoPlato',
-        templateUrl: 'app/comercio/platos/nuevoPlato/nuevoPlato.view.html',
-        controller: 'NuevoPlatoController',
+        name: 'main.editarComercio',
+        url: 'editarComercio',
+        templateUrl: 'app/comercio/editarComercio/editarComercio.view.html',
+        controller: 'EditarComercioController',
         controllerAs: 'vm'
       })   
 
